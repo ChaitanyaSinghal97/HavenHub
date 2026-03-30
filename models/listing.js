@@ -36,8 +36,10 @@ const listingSchema=new schema({
     coordinates: {
       type: [Number],
       required: true
-    }
-}
+    }},
+    features:[{
+        type: String,
+    }]
 });
 
 listingSchema.post("findOneAndDelete",async(listing)=>{

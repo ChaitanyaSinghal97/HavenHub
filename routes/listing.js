@@ -35,6 +35,21 @@ router.get("/search",wrapAsync(async(req,res)=>{
     res.render("listings/index.ejs",{allListings,query});
 }));
 
+router.get("/filter/:filterName", wrapAsync(async (req, res) => {
+    let { filterName } = req.params;
+
+    filterName = filterName.toLowerCase().replace(/-/g, " ");
+
+    const allListings = await Listing.find({
+        features: filterName
+    });
+
+    res.render("listings/index.ejs", {
+        allListings,
+        query: filterName
+    });
+}));
+
 router.route("/:id")
 .get(wrapAsync(listingController.showListing))
 .put(isLoggedIn,isOwner,upload.single("listing[image]"),validateListing,wrapAsync(listingController.updateListing))
